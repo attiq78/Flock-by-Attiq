@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Get user's cart
     const cart = await Cart.findOne({ user: userId })
       .populate('items.product', 'name price images')
-      .lean();
+      .lean() as any;
 
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({
@@ -69,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const total = subtotal + shippingFee + tax;
 
     // Create order items
-    const orderItems = cart.items.map(item => ({
+    const orderItems = cart.items.map((item: any) => ({
       product: item.product._id,
       quantity: item.quantity,
       price: item.price,
@@ -114,7 +114,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } catch (error) {
     console.error('Order creation error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({
         success: false,
         message: 'Unauthorized'
@@ -122,8 +122,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+    if ((error as any).name === 'ValidationError') {
+      const validationErrors = Object.values((error as any).errors).map((err: any) => err.message);
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
@@ -134,7 +134,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development' ? (error as any).message : undefined
     });
   }
 }

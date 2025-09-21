@@ -96,7 +96,7 @@ UserAddressSchema.index({ user: 1, isDefault: 1 });
 // Ensure only one default address per user
 UserAddressSchema.pre('save', async function(next) {
   if (this.isDefault) {
-    await this.constructor.updateMany(
+    await (this.constructor as any).updateMany(
       { user: this.user, _id: { $ne: this._id } },
       { isDefault: false }
     );

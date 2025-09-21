@@ -106,7 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (error) {
     console.error('Address API error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({
         success: false,
         message: 'Unauthorized'
@@ -115,7 +115,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development' ? (error as any).message : undefined
     });
   }
 }

@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } catch (error) {
     console.error('Clear cart error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({ 
         success: false,
         message: 'Unauthorized' 

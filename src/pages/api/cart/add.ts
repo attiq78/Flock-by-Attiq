@@ -75,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Check if product already exists in cart
     const existingItemIndex = cart.items.findIndex(
-      item => item.product.toString() === productId
+      (item: any) => item.product.toString() === productId
     );
 
     if (existingItemIndex > -1) {
@@ -108,7 +108,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } catch (error) {
     console.error('Add to cart error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({ 
         success: false,
         message: 'Unauthorized' 

@@ -101,7 +101,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Error fetching cart:', error);
       // If it's a JSON parsing error, the API might be returning HTML
-      if (error instanceof SyntaxError && error.message.includes('JSON')) {
+      if (error instanceof SyntaxError && (error as any).message.includes('JSON')) {
         console.error('API returned invalid JSON - might be returning HTML');
       }
       setCart(null);

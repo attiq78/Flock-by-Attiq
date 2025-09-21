@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+
 export interface IOrderItem {
   product: mongoose.Types.ObjectId;
   quantity: number;
@@ -137,7 +138,7 @@ OrderSchema.index({ orderStatus: 1 });
 OrderSchema.pre('save', async function(next) {
   if (this.isNew && !this.orderNumber) {
     try {
-      const count = await this.constructor.countDocuments();
+      const count = await (this.constructor as any).countDocuments();
       this.orderNumber = `ORD-${Date.now()}-${(count + 1).toString().padStart(4, '0')}`;
     } catch (error) {
       console.error('Error generating order number:', error);

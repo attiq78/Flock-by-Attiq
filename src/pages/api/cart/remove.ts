@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Remove item from cart
     cart.items = cart.items.filter(
-      item => item.product.toString() !== productId
+      (item: any) => item.product.toString() !== productId
     );
 
     await cart.save();
@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } catch (error) {
     console.error('Remove from cart error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({ 
         success: false,
         message: 'Unauthorized' 

@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Find the item in cart
     const itemIndex = cart.items.findIndex(
-      item => item.product.toString() === productId
+      (item: any) => item.product.toString() === productId
     );
 
     if (itemIndex === -1) {
@@ -95,7 +95,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } catch (error) {
     console.error('Update cart error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({ 
         success: false,
         message: 'Unauthorized' 

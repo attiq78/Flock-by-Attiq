@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || 'sk_test_51S9XVtEdFVqgWbUBYWe9djPs6wATpV0eoG381PWz2HwlQb182pQ4lWkemSUji4urdEa8ChEBXDxQnQmSt3u7buAG00THVAf7Ua';
 
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-08-27.basil',
 });
 
 const authenticateUser = (req: NextApiRequest) => {
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } catch (error) {
     console.error('Payment intent creation error:', error);
-    if (error.message === 'No token provided' || error.message.includes('jwt')) {
+    if ((error as any).message === 'No token provided' || (error as any).message.includes('jwt')) {
       return res.status(401).json({
         success: false,
         message: 'Unauthorized'
@@ -80,18 +80,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     // Handle Stripe-specific errors
-    if (error.type === 'StripeInvalidRequestError') {
+    if ((error as any).type === 'StripeInvalidRequestError') {
       return res.status(400).json({
         success: false,
         message: 'Invalid payment request',
-        error: error.message
+        error: (error as any).message
       });
     }
     
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development' ? (error as any).message : undefined
     });
   }
 }
