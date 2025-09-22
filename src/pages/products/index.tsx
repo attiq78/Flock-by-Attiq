@@ -423,6 +423,24 @@ const Products: React.FC = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Products</h1>
           <p className="text-gray-600">Discover amazing products at great prices</p>
+          
+          {/* Navigation Buttons */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/cart"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              View Cart ({getCartItemCount()})
+            </Link>
+            <Link
+              href="/orders"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <ShoppingBag className="h-4 w-4 mr-2" />
+              My Orders
+            </Link>
+          </div>
         </div>
 
         {/* Search and Filters */}

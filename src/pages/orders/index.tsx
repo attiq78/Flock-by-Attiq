@@ -13,6 +13,7 @@ import {
   Package,
   Truck,
   CheckCircle,
+  ShoppingCart,
   Clock,
   XCircle,
   AlertCircle
@@ -263,6 +264,24 @@ const Orders: React.FC = () => {
             My Orders
           </h1>
           <p className="text-gray-600">Track and manage your orders</p>
+          
+          {/* Navigation Buttons */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/products"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Continue Shopping
+            </Link>
+            <Link
+              href="/cart"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <ShoppingBag className="h-4 w-4 mr-2" />
+              View Cart
+            </Link>
+          </div>
         </div>
 
         {/* Orders List */}

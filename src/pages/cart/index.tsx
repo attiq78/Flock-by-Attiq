@@ -151,6 +151,24 @@ const Cart: React.FC = () => {
           <p className="text-gray-600">
             {cart?.items.length || 0} {cart?.items.length === 1 ? 'item' : 'items'} in your cart
           </p>
+          
+          {/* Navigation Buttons */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/products"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Continue Shopping
+            </Link>
+            <Link
+              href="/orders"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <ShoppingBag className="h-4 w-4 mr-2" />
+              My Orders
+            </Link>
+          </div>
         </div>
 
         {!cart || cart.items.length === 0 ? (
